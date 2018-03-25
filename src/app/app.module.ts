@@ -19,6 +19,7 @@ import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component
 import { PagesComponent } from './pages/pages.component';
 import { RegisterComponent } from './login/register.component';
 import { FormsModule } from '@angular/forms';
+import { ServiceModule } from './services/service.module';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,7 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     RegisterComponent,
   ],
-  imports: [BrowserModule, APP_ROUTES, PagesModule, FormsModule],
-  providers: [],
+  imports: [BrowserModule, APP_ROUTES, PagesModule, FormsModule, ServiceModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
