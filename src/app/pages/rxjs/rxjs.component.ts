@@ -1,53 +1,64 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/';
+import { retry, map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs',
   templateUrl: './rxjs.component.html',
   styles: []
 })
-export class RxjsComponent implements OnInit, OnDestroy {
-
+export class RxjsComponent implements OnDestroy {
   subscription: Subscription;
 
   constructor() {
-    this.subscription = this.regresaObservable().subscribe(
+
+
+    this.subscription =  this.regresaObservable().subscribe(
       numero => {
-        console.log(numero);
+        console.log('Subs ', numero);
       },
-      error => console.error(error),
-      () => console.log('Terminado')
+      err => console.log(err),
+      () => console.log('Se ha acabado el observable')
     );
   }
 
-  ngOnInit() {}
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   regresaObservable(): Observable<any> {
-    return new Observable(observer => {
-      let contador = 0;
+    return  new Observable(observer => {
+      let contador = 1;
+
 
       const intervalo = setInterval(() => {
-        contador++;
-        let salida = {
+
+        const salida = {
           valor: contador
         };
+
         observer.next(salida);
+
         // if (contador === 3) {
         //   clearInterval(intervalo);
         //   observer.complete();
         // }
-      }, 500);
-    })
-      .retry(1)
-      .map((resp: any) => {
+        // if (contador === 2) {
+        //   clearInterval(intervalo);
+        //   observer.error('Ha ocurrido un error');
+        // }
+        contador += 1;
+      }, 1000);
+    }).pipe(
+      retry(2),
+      map((resp: any) => {
         return resp.valor;
+      }),
+      filter((valor, index) => {
+        if(valor % 2 !== 0) {
+          return valor;
+        }
       })
-      .filter(resp => {
-        return resp % 2 === 0;
-      });
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
