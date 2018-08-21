@@ -18,16 +18,19 @@ import { BreadcrumsComponent } from './shared/breadcrums/breadcrums.component';
 import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component';
 import { PagesComponent } from './pages/pages.component';
 import { RegisterComponent } from './login/register.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceModule } from './services/service.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
+  declarations: [AppComponent, LoginComponent, RegisterComponent],
+  imports: [
+    BrowserModule,
+    APP_ROUTES,
+    PagesModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ServiceModule
   ],
-  imports: [BrowserModule, APP_ROUTES, PagesModule, FormsModule, ServiceModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
